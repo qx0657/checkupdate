@@ -77,28 +77,7 @@ public class CheckUpdateManager implements ICheckUpdateView {
                 //点击立即更新/立即安装
                 if(isApkFullyDownloaded){
                     //立即安装
-                    if (Build.VERSION.SDK_INT >= 26 && context.getPackageManager().canRequestPackageInstalls()) {
-                        //AppUtils.installApp(apksavefilepath);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        String authority = Utils.getApp().getPackageName() + ".utilcode.provider";
-                        Uri uri = FileProvider.getUriForFile(Utils.getApp(), authority, new File(apksavefilepath));
-                        intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                        dialog.dismiss();
-                    }else{
-                        ToastUtils.showShort("请开启未知应用安装权限");
-                        Intent intent = new Intent();
-                        Uri packageURI = Uri.parse("package:"+context.getPackageName());
-                        intent.setData(packageURI);
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            intent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-                        }else {
-                            intent.setAction(Settings.ACTION_SECURITY_SETTINGS);
-                        }
-                        context.startActivity(intent);
-                    }
+                    installapk(apksavefilepath);
                     return;
                 }
                 if(!isupdating){
@@ -137,7 +116,8 @@ public class CheckUpdateManager implements ICheckUpdateView {
                                 @Override
                                 public void run() {
                                     //进行安装
-                                    AppUtils.installApp(apksavefilepath);
+                                    //AppUtils.installApp(apksavefilepath);
+                                    installapk(apksavefilepath);
                                     dialog.dismiss();
                                 }
                             });
@@ -175,6 +155,31 @@ public class CheckUpdateManager implements ICheckUpdateView {
                 });
             }
         });
+    }
+
+    private void installapk(String apksavefilepath) {
+        if (Build.VERSION.SDK_INT >= 26 && context.getPackageManager().canRequestPackageInstalls()) {
+            //AppUtils.installApp(apksavefilepath);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            String authority = Utils.getApp().getPackageName() + ".utilcode.provider";
+            Uri uri = FileProvider.getUriForFile(Utils.getApp(), authority, new File(apksavefilepath));
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            dialog.dismiss();
+        }else{
+            ToastUtils.showShort("请开启未知应用安装权限");
+            Intent intent = new Intent();
+            Uri packageURI = Uri.parse("package:"+context.getPackageName());
+            intent.setData(packageURI);
+            if (Build.VERSION.SDK_INT >= 26) {
+                intent.setAction(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+            }else {
+                intent.setAction(Settings.ACTION_SECURITY_SETTINGS);
+            }
+            context.startActivity(intent);
+        }
     }
 
     Button mMessageView = null;
