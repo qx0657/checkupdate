@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         bt_checkupdate = f(R.id.bt_checkupdate);
         //进入软件自动检测更新
         new CheckUpdateManager(this).CheckUpdate(true);
-
         bt_checkupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
