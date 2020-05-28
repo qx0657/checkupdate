@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import fun.qianxiao.updatecheck.checkupdate.CheckUpdateManager;
 
+
 public class MainActivity extends AppCompatActivity {
     private Button bt_checkupdate;
 
