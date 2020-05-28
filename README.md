@@ -56,7 +56,7 @@
 
 
 ## 效果
-![效果图](http://www.baidu.com "效果图")
+![效果图](https://t1.picb.cc/uploads/2020/05/28/tJGcPe.md.gif "效果图")
 ## 其他
 浅笑博客：<http://blog.qianxiao.fun>
 
